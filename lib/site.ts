@@ -128,8 +128,7 @@ export const site = {
         "Wir beraten zur passenden Wallbox für Ihr Zuhause und vermitteln geprüfte Installationspartner in der Region Wiesbaden / Mainz.",
         "Die Zulassung und Überführung Ihres neuen Fahrzeugs erledigen wir auf Wunsch komplett. Für Inspektion, Reifen und Verschleißarbeiten an Elektrofahrzeugen arbeiten wir mit einer festen Partnerwerkstatt zusammen.",
       ],
-      image:
-        "https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?auto=format&fit=crop&w=1600&q=80",
+      image: "/images/wallbox-zulassung-werkstatt.png",
     },
   ] as ServiceItem[],
 
