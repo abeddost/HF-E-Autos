@@ -95,8 +95,7 @@ export const site = {
         "Wir vermitteln die Finanzierung Ihres Elektro-Gebrauchtwagens über etablierte Bankpartner. Laufzeit, Anzahlung und Schlussrate stimmen wir gemeinsam auf Ihr Budget ab.",
         "Für Gewerbekunden bieten wir Leasingmodelle mit planbaren monatlichen Kosten und optionalem Wartungspaket. Sprechen Sie uns auf ein individuelles Angebot an.",
       ],
-      image:
-        "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1600&q=80",
+      image: "/images/finanzierung-leasing.png",
     },
     {
       slug: "inzahlungnahme",
@@ -107,8 +106,7 @@ export const site = {
         "Ihr bisheriges Fahrzeug – ob Verbrenner oder Stromer – nehmen wir beim Kauf in Zahlung. Die Bewertung erfolgt transparent anhand von Zustand, Laufleistung und aktueller Marktlage.",
         "Der Anrechnungsbetrag wird unmittelbar mit dem Kaufpreis verrechnet. Vereinbaren Sie einen Termin zur Begutachtung vor Ort in Wiesbaden.",
       ],
-      image:
-        "https://images.unsplash.com/photo-1517672651691-24622a91b550?auto=format&fit=crop&w=1600&q=80",
+      image: "/images/inzahlungnahme.png",
     },
     {
       slug: "garantie-batterie-check",
@@ -119,8 +117,7 @@ export const site = {
         "Vor der Auslieferung durchläuft jedes Fahrzeug eine technische Prüfung. Für die Hochvoltbatterie erstellen wir einen State-of-Health-Bericht, damit Sie die tatsächliche Restkapazität kennen.",
         "Auf Wunsch erweitern wir den Kauf um eine Gebrauchtwagengarantie mit Laufzeiten von 12 bis 36 Monaten.",
       ],
-      image:
-        "https://images.unsplash.com/photo-1620891549027-942fdc95d3f5?auto=format&fit=crop&w=1600&q=80",
+      image: "/images/garantie-batterie-check.png",
     },
     {
       slug: "wallbox-zulassung-werkstatt",
