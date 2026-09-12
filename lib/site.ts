@@ -11,15 +11,6 @@ export interface OpeningHour {
 export interface NavItem {
   label: string;
   href: string;
-  /** opens the inventory mega-menu instead of navigating directly */
-  megaMenu?: boolean;
-}
-
-export interface MegaMenuCategory {
-  label: string;
-  /** query string appended to /unsere-angebote */
-  query: string;
-  description?: string;
 }
 
 export interface ServiceItem {
@@ -70,8 +61,7 @@ export const site = {
   email: "info@hf-eautos.de",
 
   openingHours: [
-    { days: "Montag – Freitag", hours: "«09:00 – 18:00 Uhr»" },
-    { days: "Samstag", hours: "«nach Vereinbarung»" },
+    { days: "Montag – Samstag", hours: "09:00 – 18:00 Uhr" },
     { days: "Sonntag", hours: "geschlossen" },
   ] as OpeningHour[],
 
@@ -89,35 +79,11 @@ export const site = {
   },
 
   nav: [
-    { label: "Fahrzeuge", href: "/unsere-angebote", megaMenu: true },
+    { label: "Bestand", href: "/unsere-angebote" },
     { label: "Leistungen", href: "/leistungen" },
     { label: "Über uns", href: "/ueber-uns" },
     { label: "Kontakt", href: "/kontakt" },
   ] as NavItem[],
-
-  megaMenu: {
-    primary: [
-      { label: "Alle Fahrzeuge", query: "", description: "Kompletter Bestand" },
-      { label: "Elektro", query: "?fuel=Elektro", description: "Vollelektrisch" },
-      {
-        label: "Plug-in-Hybrid",
-        query: "?fuel=Plug-in-Hybrid",
-        description: "Laden & tanken",
-      },
-    ] as MegaMenuCategory[],
-    bodyStyles: [
-      { label: "SUV", query: "?body=SUV" },
-      { label: "Limousine", query: "?body=Limousine" },
-      { label: "Kombi", query: "?body=Kombi" },
-      { label: "Kleinwagen", query: "?body=Kleinwagen" },
-      { label: "Van", query: "?body=Van" },
-    ] as MegaMenuCategory[],
-    priceBuckets: [
-      { label: "bis 15.000 €", query: "?priceMax=15000" },
-      { label: "bis 25.000 €", query: "?priceMax=25000" },
-      { label: "bis 40.000 €", query: "?priceMax=40000" },
-    ] as MegaMenuCategory[],
-  },
 
   services: [
     {

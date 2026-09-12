@@ -323,6 +323,13 @@ function extractImages(source: unknown): { main: string; gallery: string[] } {
       (item.uri as string) ??
       (item.url as string) ??
       (item["@url"] as string) ??
+      // Search API images expose their renditions directly as string fields.
+      (typeof item.xxxl === "string" ? item.xxxl : undefined) ??
+      (typeof item.xxl === "string" ? item.xxl : undefined) ??
+      (typeof item.xl === "string" ? item.xl : undefined) ??
+      (typeof item.l === "string" ? item.l : undefined) ??
+      (typeof item.m === "string" ? item.m : undefined) ??
+      (typeof item.s === "string" ? item.s : undefined) ??
       (isObj(item.xxxl) ? (item.xxxl["@url"] as string) : undefined) ??
       (isObj(item.xxl) ? (item.xxl["@url"] as string) : undefined);
     if (direct) {
@@ -386,7 +393,23 @@ function mapAdToVehicle(ad: Raw, imagesResponse: unknown): Vehicle {
     pick(vehicle, ["modelDescription", "model-description"]) ?? "",
   ).trim();
 
-  const fullName = [make, model, modelDescription]
+  // Dealers often type the model name directly into modelDescription
+  // (sometimes twice), so appending `model` unconditionally produces
+  // titles like "GLE 350 GLE 350 GLE 350 de …". Strip any leading
+  // repeats of `model` from modelDescription before joining.
+  let descriptionTail = modelDescription;
+  if (model) {
+    const modelLower = model.toLowerCase();
+    while (descriptionTail.toLowerCase().startsWith(`${modelLower} `)) {
+      descriptionTail = descriptionTail.slice(model.length + 1).trim();
+    }
+  }
+  const nameParts =
+    model && descriptionTail.toLowerCase().startsWith(model.toLowerCase())
+      ? [make, descriptionTail]
+      : [make, model, descriptionTail];
+
+  const fullName = nameParts
     .map((s) => (s ?? "").trim())
     .filter(Boolean)
     .join(" ")
@@ -459,7 +482,7 @@ function mapAdToVehicle(ad: Raw, imagesResponse: unknown): Vehicle {
   const vin = String(pick(vehicle, ["vin"]) ?? "") || undefined;
 
   const description = String(
-    pick(ad, ["description", "htmlDescription"]) ?? "",
+    pick(ad, ["plainTextDescription", "description", "htmlDescription"]) ?? "",
   )
     .replace(/<br\s*\/?>(?=)/gi, "\n")
     .replace(/<[^>]+>/g, "")
@@ -594,7 +617,10 @@ async function fetchAllAds(creds: MobileDeCreds): Promise<Raw[]> {
   let maxPages = 1;
   do {
     const payload = await apiGet<unknown>(
-      `/seller-api/sellers/${creds.sellerId}/ads?page.number=${page}&page.size=${PAGE_SIZE}`,
+      // This dealer has Search API (Ad-Integration) access, not Seller API
+      // access. Search API is the read-only API intended for displaying a
+      // dealer's inventory and includes the public, active ads.
+      `/search-api/search?customerId=${encodeURIComponent(creds.sellerId)}&page.number=${page}&page.size=${PAGE_SIZE}`,
       creds,
     );
     all.push(...extractAdArray(payload));
@@ -605,13 +631,13 @@ async function fetchAllAds(creds: MobileDeCreds): Promise<Raw[]> {
   return all;
 }
 
-async function fetchAdImages(
+async function fetchAdDetails(
   creds: MobileDeCreds,
   adId: string,
 ): Promise<unknown> {
   try {
     return await apiGet<unknown>(
-      `/seller-api/sellers/${creds.sellerId}/ads/${adId}/images`,
+      `/search-api/ad/${encodeURIComponent(adId)}`,
       creds,
     );
   } catch {
@@ -657,10 +683,10 @@ export async function syncInventory(): Promise<SyncResult> {
 
   const withImages = await mapPool(rawAds, IMAGE_CONCURRENCY, async (ad) => {
     const id = String(pick(ad, ["mobileAdId", "@key", "key", "adId"]) ?? "");
-    const inlineImages = extractImages(ad.images);
-    const imagesResponse =
-      inlineImages.gallery.length > 0 ? null : await fetchAdImages(creds, id);
-    return mapAdToVehicle(ad, imagesResponse);
+    // Search results contain a preview image only. Fetching the individual ad
+    // supplies its complete image gallery and the full listing details.
+    const details = id ? await fetchAdDetails(creds, id) : null;
+    return mapAdToVehicle(ad, details);
   });
 
   const vehicles = withImages

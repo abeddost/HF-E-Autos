@@ -22,7 +22,7 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
 
   return (
     <div
-      className={`fixed inset-0 z-[60] bg-white transition-opacity duration-300 lg:hidden ${
+      className={`fixed inset-0 z-[60] bg-white text-[var(--color-fg)] transition-opacity duration-300 lg:hidden ${
         open ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
       }`}
       aria-hidden={!open}
@@ -57,24 +57,6 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
             {item.label}
           </Link>
         ))}
-
-        <p className="label-caps mt-8 text-[var(--color-muted)]">Bestand</p>
-        <div className="mt-3 flex flex-col gap-1">
-          {[
-            ...site.megaMenu.primary,
-            ...site.megaMenu.bodyStyles,
-          ].map((cat) => (
-            <Link
-              key={`${cat.label}-${cat.query}`}
-              href={`/unsere-angebote${cat.query}`}
-              onClick={onClose}
-              className="py-2 text-lg text-[var(--color-muted)]"
-            >
-              {cat.label}
-            </Link>
-          ))}
-        </div>
-
         <div className="mt-10 flex flex-col gap-3">
           <a
             href={`tel:${site.phone.tel}`}

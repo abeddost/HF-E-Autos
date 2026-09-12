@@ -21,8 +21,8 @@ form shows phone / e-mail fallbacks.
 | Variable | Purpose |
 | --- | --- |
 | `NEXT_PUBLIC_SITE_URL` | Absolute base URL (OG tags, sitemap, JSON-LD). |
-| `MOBILE_DE_USERNAME` / `MOBILE_DE_PASSWORD` | mobile.de **Seller API** Basic-Auth user. |
-| `MOBILE_DE_SELLER_ID` | The `:mobileSellerId` path segment = mobile.de Kundennummer (`879460`). |
+| `MOBILE_DE_USERNAME` / `MOBILE_DE_PASSWORD` | mobile.de **Search API / Ad-Integration** Basic-Auth user. |
+| `MOBILE_DE_SELLER_ID` | The `customerId` / `mobileSellerId` used to restrict the Search API inventory (`879460`). This is not the dealer customer number. |
 | `KV_REST_API_URL` + `KV_REST_API_TOKEN` | Vercel KV / Upstash Redis (REST). Preferred store. |
 | `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` | Alternative Upstash-native names. |
 | `REDIS_URL` | Alternative plain Redis connection string. |
@@ -54,10 +54,10 @@ Secret is accepted via `Authorization: Bearer <secret>`, `x-sync-secret: <secret
 or `?token=<secret>`, matched against `SYNC_SECRET` **or** `CRON_SECRET`. If
 neither secret is configured the endpoint is open.
 
-The sync fetches every active ad (`adStatus === "ACTIVE"`), maps each to the
-`Vehicle` type, diffs against the stored snapshot and only rewrites storage when
-something actually changed (id set / price / mileage / images). Vehicles that
-disappeared from mobile.de are dropped.
+The sync reads every public ad from mobile.de's Search API (Ad-Integration), maps
+each to the `Vehicle` type, diffs against the stored snapshot and only rewrites
+storage when something actually changed (id set / price / mileage / images).
+Vehicles that disappear from mobile.de are dropped.
 
 ### Daily automation
 

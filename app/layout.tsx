@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
 import { fullAddress, site } from "@/lib/site";
 
 const inter = Inter({
@@ -78,6 +79,7 @@ export default function RootLayout({
         <Header />
         <main id="inhalt">{children}</main>
         <Footer />
+        <WhatsAppButton />
         <OrganizationJsonLd />
         <span className="sr-only">{fullAddress()}</span>
       </body>

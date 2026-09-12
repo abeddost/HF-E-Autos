@@ -1,18 +1,16 @@
 import Link from "next/link";
 import { FullBleedSection } from "@/components/sections/FullBleedSection";
 import { Reveal } from "@/components/ui/Reveal";
+import { FeaturedVehicleShowcase } from "@/components/vehicles/FeaturedVehicleShowcase";
 import { VehicleCard } from "@/components/vehicles/VehicleCard";
 import { fullAddress, mapsLink, site } from "@/lib/site";
-import { getFeaturedVehicles } from "@/lib/vehicles";
+import { getFeaturedVehicles, getTopPricedVehicles } from "@/lib/vehicles";
 
 export const revalidate = 900;
 
-const HERO_IMG =
-  "https://images.unsplash.com/photo-1593941707874-ef25b8b4a92b?auto=format&fit=crop&w=2400&q=80";
-const SERVICE_IMG =
-  "https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=2400&q=80";
-const LOCATION_IMG =
-  "https://images.unsplash.com/photo-1567818735868-e71b99932e29?auto=format&fit=crop&w=2400&q=80";
+const HERO_IMG = "/images/home-hero.png";
+const SERVICE_IMG = "/images/leistungen-home.png";
+const LOCATION_IMG = "/images/standort-home.png";
 
 const TRUST = [
   {
@@ -31,7 +29,7 @@ const TRUST = [
 
 export default async function HomePage() {
   const featured = await getFeaturedVehicles(6);
-  const hero = featured[0];
+  const topPriced = await getTopPricedVehicles(3);
 
   return (
     <>
@@ -47,28 +45,7 @@ export default async function HomePage() {
         anchor="bottom"
       />
 
-      {hero ? (
-        <FullBleedSection
-          eyebrow="Aus unserem Bestand"
-          title={hero.fullName}
-          subtitle={`${hero.price.formatted} · ${[
-            hero.firstRegistration,
-            hero.mileage.raw > 0 ? hero.mileage.formatted : null,
-            hero.power.kw > 0 ? `${hero.power.ps} PS` : null,
-            hero.fuel,
-          ]
-            .filter(Boolean)
-            .join(" · ")}`}
-          bgImage={hero.images.main || HERO_IMG}
-          primaryCta={{
-            label: "Fahrzeug ansehen",
-            href: `/unsere-angebote/${hero.slug}`,
-          }}
-          secondaryCta={{ label: "Alle Angebote", href: "/unsere-angebote" }}
-          align="left"
-          anchor="bottom"
-        />
-      ) : null}
+      {topPriced.length > 0 ? <FeaturedVehicleShowcase vehicles={topPriced} /> : null}
 
       {/* Trust */}
       <section className="mx-auto max-w-[1400px] px-6 py-24 md:py-32 lg:px-10">

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { cn } from "@/lib/cn";
 
 interface LogoProps {
@@ -7,18 +8,17 @@ interface LogoProps {
 
 export function Logo({ light, className }: LogoProps) {
   return (
-    <span
+    <Image
+      src={light ? "/logo-white.png" : "/logo.png"}
+      alt="HF E-Autos"
+      width={1785}
+      height={288}
+      priority
       className={cn(
-        "inline-flex items-baseline gap-[0.14em] text-lg font-semibold tracking-tight sm:text-xl",
-        light ? "text-white" : "text-[var(--color-fg)]",
+        "h-8 w-auto sm:h-9",
+        light && "drop-shadow-[0_1px_6px_rgba(0,0,0,0.45)]",
         className,
       )}
-      aria-label="HF E-Autos"
-    >
-      <span className={light ? "text-white" : "text-[var(--color-accent)]"}>
-        HF
-      </span>
-      <span>E-Autos</span>
-    </span>
+    />
   );
 }

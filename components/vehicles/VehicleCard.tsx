@@ -43,14 +43,9 @@ export function VehicleCard({ vehicle, priority = false }: VehicleCardProps) {
       </div>
 
       <div className="mt-4 flex flex-1 flex-col">
-        <h3 className="text-lg font-medium leading-snug transition-colors group-hover:text-[var(--color-accent)]">
+        <h3 className="line-clamp-2 break-words text-lg font-medium leading-snug transition-colors group-hover:text-[var(--color-accent)]">
           {vehicle.fullName}
         </h3>
-        {vehicle.modelDescription ? (
-          <p className="mt-1 line-clamp-1 text-sm text-[var(--color-muted)]">
-            {vehicle.modelDescription}
-          </p>
-        ) : null}
 
         <dl className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-[var(--color-muted)]">
           {specs.map((spec, i) => (

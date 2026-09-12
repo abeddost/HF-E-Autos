@@ -12,8 +12,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/leistungen" },
 };
 
-const HERO_IMG =
-  "https://images.unsplash.com/photo-1487754180451-c456f719a1fc?auto=format&fit=crop&w=2400&q=80";
+const HERO_IMG = "/images/leistungen-hero.png";
 
 export default function ServicesPage() {
   return (

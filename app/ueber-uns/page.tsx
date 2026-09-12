@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { FullBleedSection } from "@/components/sections/FullBleedSection";
 import { Reveal } from "@/components/ui/Reveal";
 import { fullAddress, site } from "@/lib/site";
@@ -10,8 +11,8 @@ export const metadata: Metadata = {
   alternates: { canonical: "/ueber-uns" },
 };
 
-const ABOUT_IMG =
-  "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=2400&q=80";
+const ABOUT_IMG = "/images/ueber-uns-hero.png";
+const STANDORT_IMG = "/images/standort-ueber-uns.png";
 
 const PROCESS = [
   {
@@ -110,8 +111,17 @@ export default function AboutPage() {
 
       <section className="border-t border-[var(--color-line)]">
         <div className="mx-auto max-w-[1400px] px-6 py-20 md:py-28 lg:px-10">
-          <div className="grid gap-10 md:grid-cols-2">
-            <Reveal>
+          <div className="grid gap-10 md:grid-cols-2 md:items-center">
+            <Reveal className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-[var(--color-bg-alt)] md:order-2">
+              <Image
+                src={STANDORT_IMG}
+                alt="HF E-Autos Standort in Wiesbaden"
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover"
+              />
+            </Reveal>
+            <Reveal className="md:order-1">
               <h2 className="text-[length:var(--text-h2)] font-medium leading-[var(--text-h2--line-height)]">
                 Standort Wiesbaden
               </h2>
@@ -121,6 +131,8 @@ export default function AboutPage() {
                 E-Mail.
               </p>
             </Reveal>
+          </div>
+          <div className="mt-10">
             <Reveal delay={80}>
               <dl className="divide-y divide-[var(--color-line)] border-y border-[var(--color-line)] text-sm">
                 {site.openingHours.map((oh) => (

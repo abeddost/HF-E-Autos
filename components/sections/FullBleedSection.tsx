@@ -88,7 +88,7 @@ export function FullBleedSection({
           />
           {overlay ? (
             <div
-              className="absolute inset-0 -z-10 bg-gradient-to-b from-black/30 via-black/10 to-black/50"
+              className="absolute inset-0 -z-10 bg-gradient-to-b from-black/40 via-black/20 to-black/75"
               aria-hidden
             />
           ) : null}
@@ -105,6 +105,7 @@ export function FullBleedSection({
           className={cn(
             "flex w-full flex-col gap-5",
             align === "center" ? "items-center text-center" : "items-start text-left",
+            theme === "dark" && bgImage && "[text-shadow:0_1px_16px_rgb(0_0_0_/_0.55)]",
           )}
         >
           {eyebrow ? (
@@ -123,7 +124,7 @@ export function FullBleedSection({
               className={cn(
                 "w-full max-w-xl text-base leading-relaxed md:text-lg",
                 align === "center" && "mx-auto",
-                theme === "dark" ? "text-white/85" : "text-[var(--color-muted)]",
+                theme === "dark" ? "text-white/90" : "text-[var(--color-muted)]",
               )}
             >
               {subtitle}

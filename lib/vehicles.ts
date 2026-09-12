@@ -49,6 +49,13 @@ export async function getFeaturedVehicles(count = 6): Promise<Vehicle[]> {
     .slice(0, count);
 }
 
+export async function getTopPricedVehicles(count = 3): Promise<Vehicle[]> {
+  const { vehicles } = await getVehicles();
+  return [...vehicles]
+    .sort((a, b) => (b.price.raw || 0) - (a.price.raw || 0))
+    .slice(0, count);
+}
+
 export interface FilterFacets {
   makes: string[];
   fuels: string[];

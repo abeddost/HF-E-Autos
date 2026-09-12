@@ -2,11 +2,10 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { cn } from "@/lib/cn";
 import { site } from "@/lib/site";
 import { Logo } from "./Logo";
-import { MegaMenu } from "./MegaMenu";
 import { MobileNav } from "./MobileNav";
 
 export function Header() {
@@ -14,9 +13,7 @@ export function Header() {
   const isHome = pathname === "/";
 
   const [scrolled, setScrolled] = useState(false);
-  const [megaOpen, setMegaOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -27,29 +24,18 @@ export function Header() {
 
   // close overlays on route change
   useEffect(() => {
-    setMegaOpen(false);
     setMobileOpen(false);
   }, [pathname]);
 
   // lock body scroll while an overlay is open
   useEffect(() => {
-    const locked = megaOpen || mobileOpen;
-    document.body.style.overflow = locked ? "hidden" : "";
+    document.body.style.overflow = mobileOpen ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
-  }, [megaOpen, mobileOpen]);
+  }, [mobileOpen]);
 
-  const solid = !isHome || scrolled || megaOpen;
-
-  const openMega = () => {
-    if (closeTimer.current) clearTimeout(closeTimer.current);
-    setMegaOpen(true);
-  };
-  const scheduleCloseMega = () => {
-    if (closeTimer.current) clearTimeout(closeTimer.current);
-    closeTimer.current = setTimeout(() => setMegaOpen(false), 120);
-  };
+  const solid = !isHome || scrolled;
 
   return (
     <header
@@ -59,7 +45,6 @@ export function Header() {
           ? "border-b border-[var(--color-line)] bg-white/95 text-[var(--color-fg)] backdrop-blur"
           : "border-b border-transparent text-white",
       )}
-      onMouseLeave={scheduleCloseMega}
     >
       <div className="mx-auto flex h-16 max-w-[1400px] items-center justify-between px-6 lg:px-10">
         <Link href="/" aria-label="Startseite" className="shrink-0">
@@ -67,30 +52,15 @@ export function Header() {
         </Link>
 
         <nav className="hidden items-center gap-8 lg:flex">
-          {site.nav.map((item) =>
-            item.megaMenu ? (
-              <button
-                key={item.href}
-                type="button"
-                className="text-sm font-medium tracking-[0.02em] transition-opacity hover:opacity-70"
-                onMouseEnter={openMega}
-                onFocus={openMega}
-                onClick={() => (megaOpen ? setMegaOpen(false) : setMegaOpen(true))}
-                aria-expanded={megaOpen}
-              >
-                {item.label}
-              </button>
-            ) : (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="text-sm font-medium tracking-[0.02em] transition-opacity hover:opacity-70"
-                onMouseEnter={scheduleCloseMega}
-              >
-                {item.label}
-              </Link>
-            ),
-          )}
+          {site.nav.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="text-sm font-medium tracking-[0.02em] transition-opacity hover:opacity-70"
+            >
+              {item.label}
+            </Link>
+          ))}
         </nav>
 
         <div className="flex items-center gap-2">
@@ -126,7 +96,6 @@ export function Header() {
         </div>
       </div>
 
-      <MegaMenu open={megaOpen} onClose={() => setMegaOpen(false)} />
       <MobileNav open={mobileOpen} onClose={() => setMobileOpen(false)} />
     </header>
   );

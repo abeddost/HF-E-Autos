@@ -28,7 +28,7 @@ export function StickySummary({ vehicle }: StickySummaryProps) {
   return (
     <div className="lg:sticky lg:top-24">
       <p className="label-caps text-[var(--color-muted)]">{vehicle.condition}</p>
-      <h1 className="mt-2 text-2xl font-medium leading-tight md:text-3xl">
+      <h1 className="mt-2 break-words text-2xl font-medium leading-tight md:text-3xl">
         {vehicle.fullName}
       </h1>
       {vehicle.modelDescription ? (
