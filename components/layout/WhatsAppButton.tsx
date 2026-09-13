@@ -1,6 +1,16 @@
+"use client";
+
+import { usePathname } from "next/navigation";
 import { site, whatsappLink } from "@/lib/site";
 
 export function WhatsAppButton() {
+  const pathname = usePathname();
+  // Kontakt and vehicle detail pages already offer WhatsApp as an inline
+  // contact option there, and the floating button would otherwise overlap
+  // those pages' own form/CTA buttons on mobile
+  const isVehicleDetail = /^\/unsere-angebote\/.+/.test(pathname ?? "");
+  if (pathname === "/kontakt" || isVehicleDetail) return null;
+
   return (
     <a
       href={whatsappLink(`Hallo ${site.name}, ich habe eine Frage zu Ihren Fahrzeugen.`)}
