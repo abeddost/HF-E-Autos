@@ -62,7 +62,7 @@ Vehicles that disappear from mobile.de are dropped.
 ### Daily automation
 
 [`vercel.json`](vercel.json) registers a Cron job hitting
-`/api/sync-vehicles?sync=1` every day at 03:00. Add `CRON_SECRET` to the Vercel
+`/api/sync-vehicles?sync=1` every day at 14:00 UTC (15:00 German winter time, 16:00 in summer). Add `CRON_SECRET` to the Vercel
 project so the call authenticates itself.
 
 Manual trigger during local dev:
