@@ -479,7 +479,10 @@ function mapAdToVehicle(ad: Raw, imagesResponse: unknown): Vehicle {
     String(pick(vehicle, ["manufacturerColorName"]) ?? "") ||
     undefined;
 
-  const vin = String(pick(vehicle, ["vin"]) ?? "") || undefined;
+  // Search results omit the VIN; only the individual ad includes it.
+  const vin =
+    String(pick(imagesResponse, ["vin"]) ?? pick(vehicle, ["vin"]) ?? "").trim() ||
+    undefined;
 
   const description = String(
     pick(ad, ["plainTextDescription", "description", "htmlDescription"]) ?? "",
@@ -526,7 +529,6 @@ function mapAdToVehicle(ad: Raw, imagesResponse: unknown): Vehicle {
     envKey && { label: "Klimatisierung", value: envKey },
     batteryKwh && { label: "Batteriekapazität", value: `${batteryKwh} kWh` },
     rangeKm && { label: "Reichweite (WLTP)", value: `${rangeKm} km` },
-    vin && { label: "FIN", value: vin },
   ].filter(Boolean) as SpecEntry[];
 
   const contact = (isObj(ad.contact) ? ad.contact : {}) as Raw;
@@ -664,6 +666,7 @@ function contentHash(vehicles: Vehicle[]): string {
         v.images.gallery.length,
         v.images.main,
         v.fullName,
+        v.vin ?? "",
       ].join("|"),
     )
     .sort()
@@ -708,7 +711,8 @@ export async function syncInventory(): Promise<SyncResult> {
         before.mileage.raw !== v.mileage.raw ||
         before.images.main !== v.images.main ||
         before.images.gallery.length !== v.images.gallery.length ||
-        before.fullName !== v.fullName
+        before.fullName !== v.fullName ||
+        before.vin !== v.vin
       );
     })
     .map((v) => v.id);
