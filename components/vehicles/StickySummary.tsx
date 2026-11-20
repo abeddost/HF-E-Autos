@@ -39,7 +39,7 @@ export function StickySummary({ vehicle }: StickySummaryProps) {
 
       <p className="mt-5 text-3xl font-medium">{vehicle.price.formatted}</p>
       <p className="mt-1 text-xs text-[var(--color-muted)]">
-        inkl. 19 % MwSt., zzgl. Überführung
+        inkl. 19 % MwSt.
       </p>
 
       <dl className="mt-6 divide-y divide-[var(--color-line)] border-y border-[var(--color-line)]">

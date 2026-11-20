@@ -90,7 +90,7 @@ function buildDescription(v: Vehicle): string {
 }
 
 /** "MM/YYYY" (mobile.de) → ISO 8601 "YYYY-MM-01" as required by Google vehicle ads. */
-function firstRegisteredIso(firstRegistration: string): string | undefined {
+export function firstRegisteredIso(firstRegistration: string): string | undefined {
   const m = /^(\d{1,2})\/(\d{4})$/.exec(firstRegistration.trim());
   if (!m) return undefined;
   const month = Number(m[1]);

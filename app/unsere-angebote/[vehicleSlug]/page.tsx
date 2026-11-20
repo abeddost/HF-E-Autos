@@ -6,6 +6,7 @@ import { Gallery } from "@/components/vehicles/Gallery";
 import { StickySummary } from "@/components/vehicles/StickySummary";
 import { Reveal } from "@/components/ui/Reveal";
 import { toInquiryCars } from "@/lib/inquiryCars";
+import { firstRegisteredIso } from "@/lib/merchantFeed";
 import { site } from "@/lib/site";
 import { getVehicleBySlug, getVehicles } from "@/lib/vehicles";
 
@@ -60,6 +61,13 @@ export default async function VehicleDetailPage({
 
   const detailUrl = `${site.url}/unsere-angebote/${vehicle.slug}`;
 
+  const itemCondition =
+    vehicle.condition === "Neuwagen"
+      ? "https://schema.org/NewCondition"
+      : "https://schema.org/UsedCondition";
+
+  // Mirrors the Merchant Center feed exactly (same price, mileage, VIN,
+  // first registration) so Google's VDP crawler finds matching values.
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Car",
@@ -74,13 +82,19 @@ export default async function VehicleDetailPage({
       : undefined,
     vehicleTransmission: vehicle.gearbox || undefined,
     fuelType: vehicle.fuel || undefined,
-    productionDate: vehicle.year ? String(vehicle.year) : undefined,
+    itemCondition,
+    dateVehicleFirstRegistered: firstRegisteredIso(vehicle.firstRegistration),
+    vehicleModelDate: vehicle.year ? String(vehicle.year) : undefined,
+    color: vehicle.exteriorColor || undefined,
+    bodyType: vehicle.bodyType || undefined,
     vehicleIdentificationNumber: vehicle.vin || undefined,
+    sku: vehicle.id,
     offers: vehicle.price.raw
       ? {
           "@type": "Offer",
           price: vehicle.price.raw,
           priceCurrency: "EUR",
+          itemCondition,
           availability: "https://schema.org/InStock",
           url: detailUrl,
           seller: { "@type": "AutoDealer", name: site.name },
