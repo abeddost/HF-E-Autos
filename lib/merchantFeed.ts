@@ -89,6 +89,15 @@ function buildDescription(v: Vehicle): string {
   return parts.join(" ");
 }
 
+/** "MM/YYYY" (mobile.de) → ISO 8601 "YYYY-MM-01" as required by Google vehicle ads. */
+function firstRegisteredIso(firstRegistration: string): string | undefined {
+  const m = /^(\d{1,2})\/(\d{4})$/.exec(firstRegistration.trim());
+  if (!m) return undefined;
+  const month = Number(m[1]);
+  if (month < 1 || month > 12) return undefined;
+  return `${m[2]}-${String(month).padStart(2, "0")}-01`;
+}
+
 function isListable(v: Vehicle): boolean {
   return v.price.raw > 0 && Boolean(v.images.main);
 }
@@ -113,6 +122,7 @@ function itemXml(v: Vehicle, base: string, storeCode: string | undefined): strin
     tag("brand", v.make),
     tag("model", v.model),
     tag("year", v.year),
+    tag("date_first_registered", firstRegisteredIso(v.firstRegistration)),
     tag("mileage", v.mileage.raw > 0 ? `${v.mileage.raw} km` : undefined),
     tag("vin", v.vin),
     tag("color", v.exteriorColor && (COLORS[v.exteriorColor.toUpperCase()] ?? v.exteriorColor)),

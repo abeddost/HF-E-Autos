@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { fullAddress, mapsLink, site } from "@/lib/site";
+import { fullAddress, mapsLink, site, whatsappLink } from "@/lib/site";
 import { Logo } from "./Logo";
 
 export function Footer() {
@@ -60,8 +60,13 @@ export function Footer() {
             <a href={`tel:${site.phone.tel}`} className="hover:text-white">
               {site.phone.display}
             </a>
-            <a href={`mailto:${site.email}`} className="hover:text-white">
-              {site.email}
+            <a
+              href={whatsappLink()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-white"
+            >
+              WhatsApp
             </a>
             <span className="text-white/40">
               Bestand wird täglich von mobile.de aktualisiert

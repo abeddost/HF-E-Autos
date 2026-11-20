@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { FullBleedSection } from "@/components/sections/FullBleedSection";
 import { Reveal } from "@/components/ui/Reveal";
-import { fullAddress, site } from "@/lib/site";
+import { fullAddress, site, whatsappLink } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Über uns",
@@ -128,7 +128,7 @@ export default function AboutPage() {
               <p className="mt-5 text-[var(--color-muted)]">
                 Sie finden uns in {fullAddress()}. Eine Besichtigung und
                 Probefahrt vereinbaren Sie am besten vorab telefonisch oder per
-                E-Mail.
+                WhatsApp.
               </p>
             </Reveal>
           </div>
@@ -147,8 +147,13 @@ export default function AboutPage() {
                   {site.phone.display}
                 </a>
                 <span className="mx-2 text-[var(--color-line)]">|</span>
-                <a href={`mailto:${site.email}`} className="underline underline-offset-4">
-                  {site.email}
+                <a
+                  href={whatsappLink(`Hallo ${site.name}, ich möchte eine Probefahrt vereinbaren.`)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline underline-offset-4"
+                >
+                  WhatsApp
                 </a>
               </p>
             </Reveal>

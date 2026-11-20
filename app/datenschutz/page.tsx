@@ -54,13 +54,10 @@ export default function DatenschutzPage() {
             3. Kontaktaufnahme
           </h2>
           <p className="mt-2">
-            Wenn Sie uns über das Kontaktformular, per E-Mail, Telefon oder
-            WhatsApp kontaktieren, verarbeiten wir die von Ihnen angegebenen
+            Wenn Sie uns per WhatsApp, Telefon oder E-Mail kontaktieren, verarbeiten wir die von Ihnen angegebenen
             Daten (Name, Kontaktdaten, Nachricht, ggf. Fahrzeugbezug) zur
             Bearbeitung Ihrer Anfrage. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b
-            bzw. lit. f DSGVO. Nachrichten aus dem Kontaktformular werden über
-            den Dienstleister Resend (Resend, Inc., USA) per E-Mail an uns
-            zugestellt. Die Daten werden gelöscht, sobald sie für die
+            bzw. lit. f DSGVO. Die Daten werden gelöscht, sobald sie für die
             Bearbeitung nicht mehr erforderlich sind und keine gesetzlichen
             Aufbewahrungsfristen entgegenstehen.
           </p>

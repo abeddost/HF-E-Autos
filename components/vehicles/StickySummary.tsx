@@ -66,12 +66,6 @@ export function StickySummary({ vehicle }: StickySummaryProps) {
         >
           WhatsApp-Anfrage
         </a>
-        <a
-          href="#kontakt"
-          className="rounded-full border border-[var(--color-fg)]/25 px-6 py-3.5 text-center text-sm font-medium uppercase tracking-[0.06em] transition-colors hover:bg-[var(--color-bg-alt)]"
-        >
-          Anfrage per Formular
-        </a>
       </div>
 
       {vehicle.mobileDeUrl ? (

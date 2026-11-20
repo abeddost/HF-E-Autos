@@ -45,7 +45,6 @@ function OrganizationJsonLd() {
     description: site.description,
     url: site.url,
     telephone: site.phone.tel,
-    email: site.email,
     address: {
       "@type": "PostalAddress",
       streetAddress: site.address.street,

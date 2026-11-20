@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ContactForm } from "@/components/contact/ContactForm";
+import { WhatsAppContact } from "@/components/contact/WhatsAppContact";
 import { Gallery } from "@/components/vehicles/Gallery";
 import { StickySummary } from "@/components/vehicles/StickySummary";
 import { Reveal } from "@/components/ui/Reveal";
+import { toInquiryCars } from "@/lib/inquiryCars";
 import { site } from "@/lib/site";
 import { getVehicleBySlug, getVehicles } from "@/lib/vehicles";
 
@@ -55,6 +56,7 @@ export default async function VehicleDetailPage({
   const { vehicleSlug } = await params;
   const vehicle = await getVehicleBySlug(vehicleSlug);
   if (!vehicle) notFound();
+  const { vehicles } = await getVehicles();
 
   const detailUrl = `${site.url}/unsere-angebote/${vehicle.slug}`;
 
@@ -210,7 +212,7 @@ export default async function VehicleDetailPage({
                 Interesse an diesem Fahrzeug?
               </h2>
               <p className="mt-4 text-[var(--color-muted)]">
-                Schreiben Sie uns eine Nachricht – wir vereinbaren gern eine
+                Schreiben Sie uns per WhatsApp – wir vereinbaren gern eine
                 Probefahrt oder beantworten Ihre Fragen zu {vehicle.fullName}.
               </p>
               <div className="mt-8 space-y-1 text-sm">
@@ -224,15 +226,10 @@ export default async function VehicleDetailPage({
                     {site.phone.display}
                   </a>
                 </p>
-                <p>
-                  <a href={`mailto:${site.email}`} className="underline underline-offset-4">
-                    {site.email}
-                  </a>
-                </p>
               </div>
             </div>
-            <div className="rounded-xl bg-white p-6 md:p-8">
-              <ContactForm vehicleName={vehicle.fullName} vehicleUrl={detailUrl} />
+            <div>
+              <WhatsAppContact cars={toInquiryCars(vehicles)} selectedSlug={vehicle.slug} />
             </div>
           </div>
         </div>

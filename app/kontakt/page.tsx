@@ -1,15 +1,20 @@
 import type { Metadata } from "next";
-import { ContactForm } from "@/components/contact/ContactForm";
+import { WhatsAppContact } from "@/components/contact/WhatsAppContact";
 import { Reveal } from "@/components/ui/Reveal";
+import { toInquiryCars } from "@/lib/inquiryCars";
 import { fullAddress, mapsLink, site, whatsappLink } from "@/lib/site";
+import { getVehicles } from "@/lib/vehicles";
 
 export const metadata: Metadata = {
   title: "Kontakt",
-  description: `Kontakt zu ${site.name} in ${site.address.city} – Telefon, WhatsApp, E-Mail und Anfahrt.`,
+  description: `Kontakt zu ${site.name} in ${site.address.city} – WhatsApp, Telefon und Anfahrt.`,
   alternates: { canonical: "/kontakt" },
 };
 
-export default function ContactPage() {
+export const revalidate = 900;
+
+export default async function ContactPage() {
+  const { vehicles } = await getVehicles();
   const mapQuery = encodeURIComponent(fullAddress());
 
   return (
@@ -28,7 +33,7 @@ export default function ContactPage() {
 
         <div className="mt-14 grid gap-12 pb-24 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
           <Reveal>
-            <ContactForm />
+            <WhatsAppContact cars={toInquiryCars(vehicles)} />
           </Reveal>
 
           <Reveal delay={80} className="flex flex-col gap-8">
@@ -48,12 +53,6 @@ export default function ContactPage() {
                   className="rounded-full border border-[var(--color-fg)]/25 px-6 py-3.5 text-center text-sm font-medium uppercase tracking-[0.06em] hover:bg-[var(--color-bg-alt)]"
                 >
                   WhatsApp
-                </a>
-                <a
-                  href={`mailto:${site.email}`}
-                  className="rounded-full border border-[var(--color-fg)]/25 px-6 py-3.5 text-center text-sm font-medium uppercase tracking-[0.06em] hover:bg-[var(--color-bg-alt)]"
-                >
-                  {site.email}
                 </a>
               </div>
             </div>

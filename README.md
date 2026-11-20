@@ -28,8 +28,6 @@ form shows phone / e-mail fallbacks.
 | `REDIS_URL` | Alternative plain Redis connection string. |
 | `SYNC_SECRET` | Shared secret for manually triggering the sync endpoint. |
 | `CRON_SECRET` | Set in Vercel so the daily Cron call is authenticated automatically. |
-| `RESEND_API_KEY` | Enables the contact form. Without it the form is disabled gracefully. |
-| `CONTACT_TO_EMAIL` / `CONTACT_FROM_EMAIL` | Recipient / sender for contact-form mails. |
 
 If no KV/Redis vars are set, the sync writes to `data/vehicles.json` (local dev
 only – serverless filesystems are read-only).
