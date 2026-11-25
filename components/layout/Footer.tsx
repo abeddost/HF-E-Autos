@@ -1,3 +1,4 @@
+import DesignerCredit from "@/components/DesignerCredit";
 import Link from "next/link";
 import { fullAddress, mapsLink, site, whatsappLink } from "@/lib/site";
 import { Logo } from "./Logo";
@@ -52,7 +53,10 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="mt-14 flex flex-col gap-4 border-t border-white/10 pt-8 text-xs sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-10 flex justify-start sm:justify-end">
+          <DesignerCredit site="hf-e-autos" />
+        </div>
+        <div className="mt-6 flex flex-col gap-4 border-t border-white/10 pt-8 text-xs sm:flex-row sm:items-center sm:justify-between">
           <p>
             © {year} {site.legalName}. Alle Rechte vorbehalten.
           </p>
